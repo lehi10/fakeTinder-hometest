@@ -1,14 +1,20 @@
 import IconButton from "@/components/Shared/IconButton";
 import { View, StyleSheet } from "react-native";
 
-const MatchActions = () => {
+const MatchActions = ({
+  onLeftSwipe,
+  onRightSwipe,
+}: {
+  onLeftSwipe?: () => void;
+  onRightSwipe?: () => void;
+}) => {
   return (
     <View style={styles.container}>
       <IconButton
         name="close"
         size={30}
         color="#FFFFFF"
-        onPress={() => console.log("Close pressed")}
+        onPress={onLeftSwipe}
         style={[styles.skip, styles.icon]}
       />
       <IconButton
@@ -22,7 +28,7 @@ const MatchActions = () => {
         name="check"
         size={30}
         color="#FFFFFF"
-        onPress={() => console.log("Check pressed")}
+        onPress={onRightSwipe}
         style={[styles.like, styles.icon]}
       />
     </View>

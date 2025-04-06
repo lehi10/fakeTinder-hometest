@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   TouchableOpacity,
   StyleSheet,
@@ -23,8 +23,15 @@ const IconButton: React.FC<IconButtonProps> = ({
   onPress,
   style,
 }) => {
+  const [isPressed, setIsPressed] = useState(false);
+
   return (
-    <TouchableOpacity onPress={onPress} style={style || styles.button}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[style || styles.button, isPressed && styles.pressedButton]}
+      onPressIn={() => setIsPressed(true)}
+      onPressOut={() => setIsPressed(false)}
+    >
       <MaterialIcons name={name} size={size} color={color} />
     </TouchableOpacity>
   );
@@ -36,6 +43,11 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#f0f0f0", // Color de fondo predeterminado
+  },
+  pressedButton: {
+    backgroundColor: "#d0d0d0", // Color de fondo cuando está presionado
+    transform: [{ scale: 0.95 }], // Efecto de escala al presionar
   },
 });
 

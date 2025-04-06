@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Animated, Dimensions, PanResponder } from "react-native";
+import { Animated, Dimensions, PanResponder, ViewStyle } from "react-native";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SWIPE_THRESHOLD = 120;
@@ -59,7 +59,19 @@ const useSwipeCard = ({
     extrapolate: "clamp",
   });
 
-  const animatedCardStyle = {
+  const iconOpacityLike = position.x.interpolate({
+    inputRange: [-30, 0, 30],
+    outputRange: [0, 0, 1],
+    extrapolate: "clamp",
+  });
+
+  const iconOpacitySkip = position.x.interpolate({
+    inputRange: [-30, 0, 30],
+    outputRange: [1, 0, 0],
+    extrapolate: "clamp",
+  });
+
+  const animatedCardStyle: Animated.WithAnimatedObject<ViewStyle> = {
     transform: [
       { translateX: position.x },
       { translateY: position.y },
@@ -107,7 +119,37 @@ const useSwipeCard = ({
       },
     }),
   ).current;
-  return { panResponder, animatedCardStyle, backgroundColor };
+
+  const swipeRight = () => {
+    Animated.timing(position, {
+      toValue: { x: SCREEN_WIDTH + 100, y: 0 },
+      duration: 600,
+      useNativeDriver: false,
+    }).start(() => {
+      onRightSwipe && onRightSwipe();
+    });
+  };
+
+  const swipeLeft = () => {
+    Animated.timing(position, {
+      toValue: { x: -SCREEN_WIDTH - 100, y: 0 },
+      duration: 600,
+      useNativeDriver: false,
+    }).start(() => {
+      onLeftSwipe && onLeftSwipe();
+    });
+  };
+
+  return {
+    panResponder,
+    animatedCardStyle,
+    backgroundColor,
+    swipeLeft,
+    swipeRight,
+    position,
+    iconOpacityLike,
+    iconOpacitySkip,
+  };
 };
 
 export default useSwipeCard;

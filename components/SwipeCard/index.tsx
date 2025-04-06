@@ -1,15 +1,19 @@
-import React from "react";
-import { Animated, ImageBackground, StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
 import MatchActions from "./MatchActions";
 import useSwipeCard from "./useSwipeCard";
-import { User } from "@/types/user";
+import { MatchType, User } from "@/types/user";
 import UserInfoSumary from "./UserInfoSumary";
+import SwipeLayout from "./SwipeLayout";
+import ModeSelector from "./ModeSelector";
 
 type Props = {
   onRightSwipe?: () => void;
   onLeftSwipe?: () => void;
   isFront?: boolean;
   user: User;
+  onChangeMatchType?: (type: MatchType) => void;
+  currentMatchType: MatchType;
 };
 
 export default function SwipeCard({
@@ -17,36 +21,47 @@ export default function SwipeCard({
   onRightSwipe,
   onLeftSwipe,
   user,
+  onChangeMatchType,
+  currentMatchType,
 }: Props) {
-  const { panResponder, animatedCardStyle, backgroundColor } = useSwipeCard({
+  const {
+    panResponder,
+    animatedCardStyle,
+    backgroundColor,
+    swipeLeft,
+    swipeRight,
+    iconOpacityLike,
+    iconOpacitySkip,
+  } = useSwipeCard({
     isFront,
     onRightSwipe,
     onLeftSwipe,
   });
 
+  const onHandleChangeMatchType = (type: MatchType) => {
+    onChangeMatchType && onChangeMatchType(type);
+  };
+
   return (
-    <Animated.View
-      {...panResponder.panHandlers}
-      style={[styles.card, animatedCardStyle]}
+    <SwipeLayout
+      panResponder={panResponder}
+      animatedCardStyle={animatedCardStyle}
+      backgroundColor={backgroundColor}
+      iconOpacitySkip={iconOpacitySkip}
+      iconOpacityLike={iconOpacityLike}
+      backgroundImage={user.photo}
     >
-      <ImageBackground
-        source={{ uri: user.photo }}
-        style={styles.image}
-        imageStyle={{ borderRadius: 30 }}
-      />
-      <Animated.View
-        style={[
-          StyleSheet.absoluteFillObject,
-          { backgroundColor, borderRadius: 30, flex: 1, padding: 40, },
-        ]}
-      >
-        <View style={styles.headerContainer}></View>
-        <View style={styles.bottomContainer}>
-          <UserInfoSumary user={user} />
-          <MatchActions />
-        </View>
-      </Animated.View>
-    </Animated.View>
+      <View style={styles.headerContainer}>
+        <ModeSelector
+          selected={currentMatchType}
+          onChange={onHandleChangeMatchType}
+        />
+      </View>
+      <View style={styles.bottomContainer}>
+        <UserInfoSumary user={user} />
+        <MatchActions onLeftSwipe={swipeLeft} onRightSwipe={swipeRight} />
+      </View>
+    </SwipeLayout>
   );
 }
 
@@ -56,8 +71,8 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     elevation: 1,
     flex: 1,
-    width: "90%",
-    height: "90%",
+    width: "80%",
+    height: "10%",
   },
   image: {
     flex: 1,
@@ -77,5 +92,9 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     gap: 30,
+  },
+  iconContainer: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

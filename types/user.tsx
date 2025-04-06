@@ -5,3 +5,9 @@ export type User = {
   photo: string;
   location: string;
 };
+
+export enum MatchType {
+  FRIENDSHIP = "friendship",
+  DATING = "dating",
+  RELATIONSHIP = "relationship",
+}

@@ -8,7 +8,7 @@ const UserInfoSumary = ({ user }: { user: User }) => {
       <View>
         <View style={styles.header}>
           <Text style={styles.h2} numberOfLines={1}>
-            {user.fullName} asdas asdasd asd asd
+            {user.fullName}
           </Text>
           <Text style={styles.h2}>, {user.age}</Text>
         </View>

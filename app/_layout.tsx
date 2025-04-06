@@ -1,5 +1,6 @@
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Drawer } from "expo-router/drawer";
+import "react-native-get-random-values";
 
 export default function Layout() {
   return (
@@ -10,7 +11,7 @@ export default function Layout() {
           overlayColor: "transparent",
           drawerStyle: {
             width: 240,
-            backgroundColor: "transparent",
+            backgroundColor: "#FFB1C7",
           },
         }}
       >
