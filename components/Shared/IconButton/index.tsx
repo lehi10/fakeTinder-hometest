@@ -1,6 +1,12 @@
-import React from 'react';
-import { TouchableOpacity, StyleSheet, GestureResponderEvent, StyleProp, ViewStyle } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import React from "react";
+import {
+  TouchableOpacity,
+  StyleSheet,
+  GestureResponderEvent,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 
 type IconButtonProps = {
   name: keyof typeof MaterialIcons.glyphMap;
@@ -13,7 +19,7 @@ type IconButtonProps = {
 const IconButton: React.FC<IconButtonProps> = ({
   name,
   size = 24,
-  color = '#000',
+  color = "#000",
   onPress,
   style,
 }) => {
@@ -28,8 +34,8 @@ const styles = StyleSheet.create({
   button: {
     padding: 8,
     borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
