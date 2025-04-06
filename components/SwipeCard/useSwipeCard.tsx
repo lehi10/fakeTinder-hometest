@@ -16,7 +16,6 @@ const useSwipeCard = ({
   const position = useRef(new Animated.ValueXY()).current;
   const transition = useRef(new Animated.Value(isFront ? 1 : 0)).current;
   const verticalPosition = useRef(new Animated.Value(isFront ? 10 : 0)).current;
-
   const [wasFront, setWasFront] = React.useState(isFront);
 
   React.useEffect(() => {

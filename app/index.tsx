@@ -1,4 +1,5 @@
 import SwipeCard from "@/components/SwipeCard";
+import { User } from "@/types/user";
 import React from "react";
 import { StyleSheet, SafeAreaView, View, Text } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -9,21 +10,27 @@ const images = [
   "https://s3-alpha-sig.figma.com/img/c74e/3ede/567bf0381a39e776aa384fea784f421a?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=SAIyWZiyzQDmGr-Nm~TtBmtakvXDHBlabQSGdAFZguCZjkaZTNdLGFVArGKDT2D59iZzdOPgyZa7K78OvpKqaHViNE0FTN~lYFu-9LZXoqNGoXmZ97CVMQAm6nzNSPSsiIlkjgf-TuX0Q2R0Y2n1kNzILu6RjZzZYaUgsXuN0EVDaqXdqDvYgAvUmUPkUOWsuDH7DI6Moxs~QV8jU3VEJGOLfb678d29hWvWwMw9lkj8FJKTMD4ky17dPsNeSxatfpJfu2zhgIBmrftBMQnhDuxx2iEiP00E482Xn~mAvoJcaS1FoppLecwrx3s8Rn~6x2XoBJeDdtx0uL0T3fejIw__",
 ];
 
-const usersFake = [
+const usersFake: User[] = [
   {
     id: "1",
-    fullname: "John Doe",
-    image: images[0],
+    fullName: "Sandra Gómez",
+    photo: images[0],
+    age: 21,
+    location: "Surco, Perú",
   },
   {
     id: "2",
-    fullname: "Jane Smith",
-    image: images[1],
+    fullName: "Beatriz",
+    photo: images[1],
+    age: 22,
+    location: "22 Km, Lima",
   },
   {
     id: "3",
-    fullname: "Alice Johnson",
-    image: images[2],
+    fullName: "Carmen",
+    photo: images[2],
+    age: 22,
+    location: "Miraflores, Perú",
   },
 ];
 
@@ -37,10 +44,7 @@ export default function Index() {
         <View style={styles.content}>
           {users.map((user, index) => (
             <SwipeCard
-              key={index}
-              image={user.image}
-              fullname={user.fullname}
-              index={index}
+              key={user.id}
               isFront={index === users.length - 1}
               onLeftSwipe={() => {
                 setUsers((prevItems) => prevItems.slice(0, -1));
@@ -48,6 +52,7 @@ export default function Index() {
               onRightSwipe={() => {
                 setUsers((prevItems) => prevItems.slice(0, -1));
               }}
+              user={user}
             />
           ))}
         </View>

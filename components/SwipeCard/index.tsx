@@ -1,24 +1,22 @@
 import React from "react";
-import { Animated, ImageBackground, StyleSheet } from "react-native";
+import { Animated, ImageBackground, StyleSheet, View } from "react-native";
 import MatchActions from "./MatchActions";
 import useSwipeCard from "./useSwipeCard";
+import { User } from "@/types/user";
+import UserInfoSumary from "./UserInfoSumary";
 
 type Props = {
-  image: string;
-  fullname: string;
   onRightSwipe?: () => void;
   onLeftSwipe?: () => void;
-  index?: number;
   isFront?: boolean;
+  user: User;
 };
 
 export default function SwipeCard({
-  image,
-  fullname,
-  index,
   isFront,
   onRightSwipe,
   onLeftSwipe,
+  user,
 }: Props) {
   const { panResponder, animatedCardStyle, backgroundColor } = useSwipeCard({
     isFront,
@@ -32,17 +30,21 @@ export default function SwipeCard({
       style={[styles.card, animatedCardStyle]}
     >
       <ImageBackground
-        source={{ uri: image }}
+        source={{ uri: user.photo }}
         style={styles.image}
         imageStyle={{ borderRadius: 30 }}
       />
       <Animated.View
         style={[
           StyleSheet.absoluteFillObject,
-          { backgroundColor, borderRadius: 30 },
+          { backgroundColor, borderRadius: 30, flex: 1, padding: 40, },
         ]}
       >
-        <MatchActions />
+        <View style={styles.headerContainer}></View>
+        <View style={styles.bottomContainer}>
+          <UserInfoSumary user={user} />
+          <MatchActions />
+        </View>
       </Animated.View>
     </Animated.View>
   );
@@ -68,5 +70,12 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 50,
     padding: 12,
+  },
+  headerContainer: {
+    flex: 1,
+    gap: 20,
+  },
+  bottomContainer: {
+    gap: 30,
   },
 });
